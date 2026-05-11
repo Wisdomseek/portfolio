@@ -86,7 +86,61 @@
       border-radius: 50%;
       opacity: .4;
       transition: width .3s ease, height .3s ease, opacity .3s ease, border-color .3s ease;
+      
     }
+
+    /* Fullscreen loading overlay with progress bar */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 0%, #23447f 0, #102547 55%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  color: var(--white);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-inner {
+  width: min(420px, 80vw);
+  text-align: center;
+}
+
+.loader-bar-track {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.18);
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.loader-bar-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--gold), #ffe9a0);
+  border-radius: inherit;
+  transition: width 0.08s linear;
+}
+
+.loader-percent {
+  font-size: 0.9rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.loader-label {
+  margin-top: 0.4rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
 
     /* Scroll Progress Bar */
     .progress-bar {
@@ -498,9 +552,65 @@
   </style>
 </head>
 <body>
-  <div class="progress-bar" id="progress"></div>
+   <div class="progress-bar" id="progress"></div>
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-ring" id="cursor-ring"></div>
+
+  <!-- Page loader with 0–100% bar -->
+  <div id="page-loader">
+    <div class="loader-inner">
+      <div class="loader-bar-track">
+        <div class="loader-bar-fill" id="loader-bar-fill"></div>
+      </div>
+      <div class="loader-percent" id="loader-percent">0%</div>
+      <div class="loader-label">Loading portfolio</div>
+    </div>
+  </div>
+
+  <div class="bg-layer bg-layer-1"></div>
+  <div class="bg-layer bg-layer-2"></div>
+  <div class="bg-layer bg-layer-3"></div>
+  <div class="bg-layer bg-vignette"></div>
+
+  /* Fullscreen loading overlay */
+#page-loader {
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at 20% 0%, #23447f 0, #102547 55%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+  color: var(--white);
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+#page-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.loader-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 3px solid rgba(255,255,255,0.2);
+  border-top-color: var(--gold);
+  animation: spinLoader 0.9s linear infinite;
+  margin-bottom: 1.2rem;
+}
+
+.loader-text {
+  font-size: 0.95rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+
+@keyframes spinLoader {
+  to { transform: rotate(360deg); }
+}
 
   <div class="bg-layer bg-layer-1"></div>
   <div class="bg-layer bg-layer-2"></div>
@@ -815,11 +925,36 @@
       fadeObserver.observe(el);
     });
 
-    // Kick home hero quote into view after load
-    window.addEventListener('load', () => {
-      const homeQuote = document.querySelector('#home .hero-quote');
-      if (homeQuote) homeQuote.classList.add('visible');
-    });
-  </script>
-</body>
-</html>
+   // After everything loads
+window.addEventListener('load', () => {
+  const homeQuote = document.querySelector('#home .hero-quote');
+  if (homeQuote) homeQuote.classList.add('visible');
+
+  const loader = document.getElementById('page-loader');
+  const barFill = document.getElementById('loader-bar-fill');
+  const percentText = document.getElementById('loader-percent');
+
+  if (!loader || !barFill || !percentText) return;
+
+  let progress = 0;
+  const duration = 1200; // total time in ms for 0–100
+  const step = 20;       // interval in ms
+  const increment = 100 / (duration / step);
+
+  const intervalId = setInterval(() => {
+    progress += increment;
+    if (progress >= 100) {
+      progress = 100;
+      clearInterval(intervalId);
+
+      // small delay so 100% is visible
+      setTimeout(() => {
+        loader.classList.add('hidden');
+      }, 200);
+    }
+
+    const rounded = Math.round(progress);
+    barFill.style.width = rounded + '%';
+    percentText.textContent = rounded + '%';
+  }, step);
+});
