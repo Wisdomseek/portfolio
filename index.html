@@ -6,15 +6,14 @@
   <title>Pedro Costa Silva - Psychology Portfolio</title>
   <style>
     :root {
-  --gold: #D4AF37;
-  --white: #FFFFFF;
-  /* lighter blue theme */
-  --black-1: #102547;   /* main background: deep but lighter blue */
-  --black-2: #173568;   /* mid blue */
-  --black-3: #21447F;   /* lighter surface */
-  --black-4: #2B5A9B;   /* lightest accent */
-
-}
+      --gold: #D4AF37;
+      --white: #FFFFFF;
+      /* lighter blue theme */
+      --black-1: #102547;   /* main background: deep but lighter blue */
+      --black-2: #173568;   /* mid blue */
+      --black-3: #21447F;   /* lighter surface */
+      --black-4: #2B5A9B;   /* lightest accent */
+    }
 
     * {
       margin: 0;
@@ -23,15 +22,15 @@
     }
 
     body {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: rgba(255,255,255,.90);
-  background: var(--black-1);
-  overflow-x: hidden;
-  cursor: none;
-  font-size: clamp(16px, 1rem + 0.25vw, 19px);
-  line-height: 1.7;
-  letter-spacing: 0.01em;
-}
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      color: rgba(255,255,255,1);
+      background: var(--black-1);
+      overflow-x: hidden;
+      cursor: none;
+      font-size: clamp(16px, 1rem + 0.25vw, 19px);
+      line-height: 1.7;
+      letter-spacing: 0.01em;
+    }
 
     /* Layered background with depth */
     .bg-layer {
@@ -130,7 +129,7 @@
 
     .nav-link {
       text-decoration: none;
-      color: rgba(255,255,255,.6);
+      color: rgba(255,255,255,.8);
       font-size: 0.95rem;
       letter-spacing: 1px;
       transition: color .3s ease;
@@ -183,53 +182,54 @@
       transition: opacity 0.8s ease, transform 0.8s ease;
     }
     
-.section-title {
-  position: relative;
-}
+    .section-title {
+      position: relative;
+    }
 
- /*Animated divider under section titles */
-.section-title::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  bottom: -12px;
-  width: 0%;
-  height: 3px;
-  background: linear-gradient(90deg, var(--silver), rgba(212,175,55,0.2));
-  transition: width 0.5s ease;
-}
+    /* Animated divider under section titles */
+    .section-title::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -12px;
+      width: 0%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--gold), rgba(212,175,55,0.2));
+      transition: width 0.5s ease;
+    }
 
-.section-title.in-view::after {
-  width: 90%;
-}
+    .section-title.in-view::after {
+      width: 90%;
+    }
+
     .section-title.in-view {
       opacity: 1;
       transform: translateY(0);
     }
-/* Per-letter hover for section titles */
-.title-letters span {
-  display: inline-block;
-  color: var(--white);
-  transition: color 0.35s ease, transform 0.35s ease;
-}
 
-/* When you hover the whole title */
-.title-letters:hover span {
-  color: rgba(212,175,55,0.8); /* gold-ish */
-}
+    /* Per-letter hover for section titles */
+    .title-letters span {
+      display: inline-block;
+      color: var(--white);
+      transition: color 0.35s ease, transform 0.35s ease;
+    }
 
-/* Staggered “slowly light up” effect */
-.title-letters span:nth-child(1) { transition-delay: 0.00s; }
-.title-letters span:nth-child(2) { transition-delay: 0.04s; }
-.title-letters span:nth-child(3) { transition-delay: 0.08s; }
-.title-letters span:nth-child(4) { transition-delay: 0.12s; }
-.title-letters span:nth-child(5) { transition-delay: 0.16s; }
-.title-letters span:nth-child(6) { transition-delay: 0.20s; }
-.title-letters span:nth-child(7) { transition-delay: 0.24s; }
-.title-letters span:nth-child(8) { transition-delay: 0.28s; }
-.title-letters span:nth-child(9) { transition-delay: 0.32s; }
-.title-letters span:nth-child(10) { transition-delay: 0.36s; }
-    /* Content Blocks - Initially Invisible */
+    .title-letters:hover span {
+      color: rgba(212,175,55,0.8);
+    }
+
+    .title-letters span:nth-child(1) { transition-delay: 0.00s; }
+    .title-letters span:nth-child(2) { transition-delay: 0.04s; }
+    .title-letters span:nth-child(3) { transition-delay: 0.08s; }
+    .title-letters span:nth-child(4) { transition-delay: 0.12s; }
+    .title-letters span:nth-child(5) { transition-delay: 0.16s; }
+    .title-letters span:nth-child(6) { transition-delay: 0.20s; }
+    .title-letters span:nth-child(7) { transition-delay: 0.24s; }
+    .title-letters span:nth-child(8) { transition-delay: 0.28s; }
+    .title-letters span:nth-child(9) { transition-delay: 0.32s; }
+    .title-letters span:nth-child(10) { transition-delay: 0.36s; }
+
+    /* Content Blocks */
     .content-block {
       margin-bottom: 12vh;
       opacity: 0;
@@ -253,7 +253,7 @@
     .content-block li {
       font-size: clamp(1rem, 1.5vw, 1.1rem);
       line-height: 1.8;
-      color: rgba(255,255,255,.90);
+      color: rgba(255,255,255,1);
       max-width: 70ch;
       transition: color 0.3s ease;
     }
@@ -307,7 +307,7 @@
 
     .hero-subtitle {
       font-size: clamp(1.2rem, 2.5vw, 1.8rem);
-      color: rgba(255,255,255,.7);
+      color: rgba(255,255,255,0.95);
       margin-bottom: 6vh;
       letter-spacing: 2px;
       text-transform: uppercase;
@@ -328,7 +328,7 @@
 
     .hero-quote {
       font-size: clamp(1.1rem, 2vw, 1.4rem);
-      color: rgba(255,255,255,.7);
+      color: rgba(255,255,255,0.9);
       max-width: 60ch;
       margin: 0 auto;
       font-style: italic;
@@ -346,7 +346,7 @@
     /* About Section */
     #about .hero-text {
       font-size: clamp(1.1rem, 2vw, 1.5rem);
-      color: rgba(255,255,255,.85);
+      color: rgba(255,255,255,1);
       line-height: 1.7;
       max-width: 60ch;
       margin-bottom: 5vh;
@@ -360,7 +360,7 @@
       transform: translateY(0);
     }
 
-    /* Featured Work Section (for GRIT + future projects) */
+    /* Featured Work Section */
     .featured-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -397,10 +397,11 @@
     .featured-card p {
       font-size: clamp(0.95rem, 1.3vw, 1.05rem);
       line-height: 1.7;
+      color: rgba(255,255,255,1);
     }
 
     .featured-card a {
-      color: rgba(255,255,255,.8);
+      color: rgba(255,255,255,0.95);
       text-decoration: none;
       border-bottom: 1px solid rgba(212, 175, 55, 0.4);
       padding-bottom: 2px;
@@ -412,7 +413,7 @@
       border-color: var(--gold);
     }
 
-    /* Contact-style links (you can repurpose if needed later) */
+    /* Contact links */
     .contact-links {
       display: flex;
       gap: 4vw;
@@ -423,7 +424,7 @@
 
     .contact-link {
       font-size: clamp(1rem, 1.4vw, 1.2rem);
-      color: rgba(255,255,255,.6);
+      color: rgba(255,255,255,0.9);
       text-decoration: none;
       padding: 1.2vh 2.5vw;
       border: 1px solid rgba(212, 175, 55, 0.3);
@@ -535,7 +536,9 @@
 
     <!-- ABOUT -->
     <section id="about">
-      <h2 class="section-title title-letters">   <span>A</span><span>b</span><span>o</span><span>u</span><span>t</span><span>&nbsp;</span><span>m</span><span>e</span> </h2>
+      <h2 class="section-title title-letters">
+        <span>A</span><span>b</span><span>o</span><span>u</span><span>t</span><span>&nbsp;</span><span>m</span><span>e</span>
+      </h2>
       <p class="hero-text">
         Hello, my name is Pedro Costa Silva, it's nice to have you on my website! I created this space as an assignment for my Statistics class in my last year of college. I'm a senior majoring in Psychology, a subject for which I'm deeply passionate. I love cooking, playing soccer (I'm Brazilian), learning... I also love thinking deeply about what it means to be human.
       </p>
@@ -553,14 +556,20 @@
           If you'd like to connect, collaborate, or talk about psychology, statistics, or soccer, feel free to reach out.
         </p>
         <div class="contact-links">
-          <a href="mailto:pedrocostasilva2003@gmail.com" class="contact-link">pedrocostasilva2003@gmail.com</a>
+          <a href="mailto:pedrocostasilva2003@gmail.com" class="contact-link">Email</a>
         </div>
       </div>
     </section>
 
     <!-- PHILOSOPHY -->
     <section id="philosophy">
-      <h2 class="section-title title-letters">   <span>W</span><span>h</span><span>a</span><span>t</span><span>&nbsp;</span>   <span>l</span><span>e</span><span>a</span><span>r</span><span>n</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>   <span>m</span><span>e</span><span>a</span><span>n</span><span>s</span><span>&nbsp;</span>   <span>t</span><span>o</span><span>&nbsp;</span>   <span>m</span><span>e</span> </h2>
+      <h2 class="section-title title-letters">
+        <span>W</span><span>h</span><span>a</span><span>t</span><span>&nbsp;</span>
+        <span>l</span><span>e</span><span>a</span><span>r</span><span>n</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>
+        <span>m</span><span>e</span><span>a</span><span>n</span><span>s</span><span>&nbsp;</span>
+        <span>t</span><span>o</span><span>&nbsp;</span>
+        <span>m</span><span>e</span>
+      </h2>
 
       <div class="content-block">
         <h3>Learning & Growth</h3>
@@ -585,7 +594,9 @@
 
     <!-- COURSEWORK -->
     <section id="coursework">
-      <h2 class="section-title title-letters">   <span>C</span><span>o</span><span>u</span><span>r</span><span>s</span><span>e</span><span>w</span><span>o</span><span>r</span><span>k</span> </h2>
+      <h2 class="section-title title-letters">
+        <span>C</span><span>o</span><span>u</span><span>r</span><span>s</span><span>e</span><span>w</span><span>o</span><span>r</span><span>k</span>
+      </h2>
 
       <div class="content-block">
         <h3>Projects & Assignments (Psychology of Personality — Psy 301)</h3>
@@ -630,7 +641,10 @@
 
     <!-- PRESENTATIONS / PROJECT PAGE -->
     <section id="presentations">
-      <h2 class="section-title title-letters">   <span>P</span><span>r</span><span>o</span><span>j</span><span>e</span><span>c</span><span>t</span><span>&nbsp;</span>   <span>P</span><span>a</span><span>g</span><span>e</span> </h2>
+      <h2 class="section-title title-letters">
+        <span>P</span><span>r</span><span>o</span><span>j</span><span>e</span><span>c</span><span>t</span><span>&nbsp;</span>
+        <span>P</span><span>a</span><span>g</span><span>e</span>
+      </h2>
 
       <div class="featured-grid">
         <div class="featured-card">
@@ -649,7 +663,9 @@
 
     <!-- REFLECTIONS -->
     <section id="reflections">
-      <h2 class="section-title title-letters">   <span>R</span><span>e</span><span>f</span><span>l</span><span>e</span><span>c</span><span>t</span><span>i</span><span>o</span><span>n</span><span>s</span> </h2>
+      <h2 class="section-title title-letters">
+        <span>R</span><span>e</span><span>f</span><span>l</span><span>e</span><span>c</span><span>t</span><span>i</span><span>o</span><span>n</span><span>s</span>
+      </h2>
 
       <div class="content-block">
         <h3>Writing Sample I'm Most Proud Of (Personality)</h3>
@@ -719,21 +735,6 @@
       mouseY = e.clientY;
       cursorDot.style.left = mouseX + 'px';
       cursorDot.style.top = mouseY + 'px';
-
-      // Cursor proximity text brightening
-      const textElements = document.querySelectorAll('.content-block p, .content-block li, .hero-text, .hero-quote');
-      textElements.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const distX = mouseX - (rect.left + rect.width / 2);
-        const distY = mouseY - (rect.top + rect.height / 2);
-        const dist = Math.sqrt(distX * distX + distY * distY);
-
-        if (dist < 200) {
-          el.style.color = `rgba(255,255,255,${Math.max(.6, 1 - dist / 200)})`;
-        } else {
-          el.style.color = 'rgba(255,255,255,.6)';
-        }
-      });
     });
 
     function animateRing() {
