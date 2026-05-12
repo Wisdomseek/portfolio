@@ -93,7 +93,7 @@
       transition: width .3s ease, height .3s ease, opacity .3s ease, border-color .3s ease;
     }
 
-    /* Fullscreen intro loader with site colors + subtle animation */
+    /* FULLSCREEN INTRO LOADER – CIRCLE BOTTOM LEFT */
     #page-loader {
       position: fixed;
       inset: 0;
@@ -103,9 +103,6 @@
         var(--black-1);
       background-size: 160% 160%;
       animation: loaderGradient 14s ease-in-out infinite alternate;
-      display: flex;
-      align-items: center;
-      justify-content: center;
       z-index: 9998;
       color: var(--white);
       transition: opacity 0.8s ease, visibility 0.8s ease;
@@ -116,61 +113,76 @@
       visibility: hidden;
     }
 
-    .loader-inner {
-      width: min(540px, 90vw);
-      padding-inline: 1rem;
-    }
-
-    .loader-top-line {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      font-size: 0.8rem;
-      letter-spacing: 0.24em;
-      text-transform: uppercase;
-      opacity: 0.7;
-    }
-
-    .loader-label {
-      opacity: 0.7;
-    }
-
-    .loader-percent {
-      font-variant-numeric: tabular-nums;
-    }
-
-    .loader-name {
-      font-size: clamp(2rem, 4vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
-
-    .loader-subtitle {
-      font-size: 0.9rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.75;
-      margin-bottom: 2rem;
-    }
-
-    .loader-bar-track {
+    .loader-layout {
+      position: relative;
       width: 100%;
-      height: 3px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.18);
+      height: 100%;
+    }
+
+    .loader-circle-wrap {
+      position: absolute;
+      left: max(4vw, 1.5rem);
+      bottom: max(6vh, 2.5rem);
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.2rem;
+    }
+
+    .loader-circle {
+      width: min(220px, 40vw);
+      height: min(220px, 40vw);
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
       overflow: hidden;
     }
 
-    .loader-bar-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold), #ffffff);
-      border-radius: inherit;
-      transform-origin: left center;
-      transition: width 0.09s linear;
+    .loader-circle-outline {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 2px solid rgba(255,255,255,0.15);
+    }
+
+    .loader-circle-progress {
+      position: absolute;
+      inset: 12px;
+      border-radius: 50%;
+      border: 2px solid var(--white);
+      border-color: var(--white) transparent transparent transparent;
+      transform: rotate(-90deg);
+      transform-origin: center;
+      /* we’ll animate this with JS via stroke-like trick: using conic-gradient background */
+      background:
+        conic-gradient(var(--white) 0deg, var(--white) 0deg, transparent 0deg);
+      -webkit-mask:
+        radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+      mask:
+        radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
+    }
+
+    .loader-circle-inner {
+      position: absolute;
+      inset: 20px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.02);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .loader-percent {
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .loader-text {
+      font-size: 0.9rem;
+      max-width: 260px;
+      line-height: 1.5;
+      color: rgba(255,255,255,0.85);
     }
 
     @keyframes loaderGradient {
@@ -442,7 +454,10 @@
       }
     }
 
+    /* Hero quote with golden shine */
     .hero-quote {
+      position: relative;
+      display: inline-block;
       font-size: clamp(1.1rem, 2vw, 1.4rem);
       color: rgba(255,255,255,0.9);
       max-width: 60ch;
@@ -452,11 +467,37 @@
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
+      overflow: hidden;
     }
 
     #home .hero-quote.visible {
       opacity: 1;
       transform: translateY(0);
+    }
+
+    .hero-quote::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -40%;
+      width: 40%;
+      height: 100%;
+      background: linear-gradient(
+        120deg,
+        transparent 0%,
+        rgba(212,175,55,0.0) 25%,
+        rgba(255,255,255,0.65) 50%,
+        rgba(212,175,55,0.0) 75%,
+        transparent 100%
+      );
+      transform: skewX(-20deg);
+      animation: quoteShine 4s linear infinite;
+      pointer-events: none;
+    }
+
+    @keyframes quoteShine {
+      0%   { transform: translateX(-120%) skewX(-20deg); }
+      100% { transform: translateX(220%) skewX(-20deg); }
     }
 
     /* About Section */
@@ -610,6 +651,12 @@
       .section-title {
         margin-bottom: 6vh;
       }
+
+      .loader-circle-wrap {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 10vh;
+      }
     }
   </style>
 </head>
@@ -618,17 +665,20 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-ring" id="cursor-ring"></div>
 
-  <!-- Intro loader -->
+  <!-- Circle-style intro loader -->
   <div id="page-loader">
-    <div class="loader-inner">
-      <div class="loader-top-line">
-        <span class="loader-label">Portfolio</span>
-        <span class="loader-percent" id="loader-percent">0%</span>
-      </div>
-      <div class="loader-name">PEDRO COSTA SILVA</div>
-      <div class="loader-subtitle">Psychology &amp; Statistics</div>
-      <div class="loader-bar-track">
-        <div class="loader-bar-fill" id="loader-bar-fill"></div>
+    <div class="loader-layout">
+      <div class="loader-circle-wrap">
+        <div class="loader-circle">
+          <div class="loader-circle-outline"></div>
+          <div class="loader-circle-progress" id="loader-circle-progress"></div>
+          <div class="loader-circle-inner">
+            <span class="loader-percent" id="loader-percent">0%</span>
+          </div>
+        </div>
+        <div class="loader-text">
+          Hi, I'm Pedro. This is a small portfolio for my psychology and statistics work.
+        </div>
       </div>
     </div>
   </div>
@@ -948,40 +998,43 @@
       fadeObserver.observe(el);
     });
 
-    // Intro loader: 0–100% then fade out, then reveal hero quote
+    // Circle loader: 0–100% then fade out, then reveal hero quote
     window.addEventListener('load', () => {
       const homeQuote = document.querySelector('#home .hero-quote');
       const loader = document.getElementById('page-loader');
-      const barFill = document.getElementById('loader-bar-fill');
       const percentText = document.getElementById('loader-percent');
+      const circleProgress = document.getElementById('loader-circle-progress');
 
-      if (!loader || !barFill || !percentText) {
+      if (!loader || !percentText || !circleProgress) {
         if (homeQuote) homeQuote.classList.add('visible');
         return;
       }
 
-      let progress = 0;
-      const duration = 2600; // total ms for 0–100
-      const step = 24;
+      let progressVal = 0;
+      const duration = 3200; // ms
+      const step = 32;
       const increment = 100 / (duration / step);
 
       const intervalId = setInterval(() => {
-        progress += increment;
+        progressVal += increment;
 
-        if (progress >= 100) {
-          progress = 100;
+        if (progressVal >= 100) {
+          progressVal = 100;
           clearInterval(intervalId);
 
-          // small pause at 100, then fade loader, then show hero quote
           setTimeout(() => {
             loader.classList.add('hidden');
             if (homeQuote) homeQuote.classList.add('visible');
-          }, 500);
+          }, 400);
         }
 
-        const rounded = Math.round(progress);
-        barFill.style.width = rounded + '%';
+        const rounded = Math.round(progressVal);
         percentText.textContent = rounded + '%';
+
+        // Update conic-gradient angle
+        const angle = (rounded / 100) * 360;
+        circleProgress.style.background =
+          `conic-gradient(var(--white) 0deg, var(--white) ${angle}deg, transparent ${angle}deg)`;
       }, step);
     });
   </script>
