@@ -4,8 +4,19 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedro Costa Silva - Psychology Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <style>
+    @font-face {
+      font-family: 'Unicum';
+      src: url('https://files.fontsme.com/u/4/4004/file/unicum.regular.ttf') format('truetype');
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: 'Best Quotes';
+      src: url('./fonts/BestQuotesPersonalUse.ttf') format('truetype');
+      font-display: swap;
+    }
+
     :root {
       --gold: #D4AF37;
       --white: #FFFFFF;
@@ -158,11 +169,11 @@
     }
 
     .loader-text {
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: 0.95rem;
+      font-family: 'Unicum', serif;
+      font-size: 1rem;
       max-width: 320px;
       line-height: 1.5;
-      color: rgba(255,255,255,0.85);
+      color: rgba(255,255,255,0.9);
       text-align: center;
     }
 
@@ -302,12 +313,12 @@
     }
 
     .hero-title {
-      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      font-size: clamp(3.5rem, 8vw, 7rem);
-      font-weight: 900;
+      font-family: 'Unicum', serif;
+      font-size: clamp(3.8rem, 8vw, 7.5rem);
+      font-weight: 400;
       color: var(--white);
       margin-bottom: 3vh;
-      letter-spacing: -0.06em;
+      letter-spacing: 0.03em;
       opacity: 0;
       transform: translateY(20px);
       text-shadow: 0 10px 30px rgba(0,0,0,0.35);
@@ -333,11 +344,14 @@
     .hero-quote {
       position: relative;
       display: inline-block;
-      font-size: clamp(1.1rem, 2vw, 1.4rem);
-      max-width: 60ch;
+      max-width: 24ch;
       margin: 0 auto;
-      font-style: italic;
-      line-height: 1.8;
+      font-family: 'Best Quotes', cursive;
+      font-size: clamp(2rem, 3.2vw, 3rem);
+      font-weight: 700;
+      line-height: 1.2;
+      color: #fff;
+      text-align: center;
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.7s ease, transform 0.7s ease;
@@ -349,33 +363,84 @@
       transform: translateY(0);
     }
 
-    .hero-quote span {
-      display: inline-block;
-      background: linear-gradient(
-        120deg,
-        rgba(255,255,255,0.4),
-        var(--gold),
-        rgba(255,255,255,0.4)
-      );
-      background-size: 200% 100%;
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      animation: quoteLetterPulse 2.4s ease-in-out infinite;
+    .glitch-quote {
+      position: relative;
+      color: #fff;
+      font-family: 'Best Quotes', cursive;
+      font-weight: 700;
+      text-shadow:
+        0.03em 0 0 rgba(255, 0, 80, 0.75),
+        -0.03em -0.02em 0 rgba(0, 255, 255, 0.75),
+        0.02em 0.03em 0 rgba(255, 255, 255, 0.35);
+      animation: quoteGlitch 1400ms infinite;
     }
 
-    .hero-quote span:nth-child(odd) { animation-delay: 0.08s; }
-    .hero-quote span:nth-child(3n)  { animation-delay: 0.16s; }
+    .glitch-quote::before,
+    .glitch-quote::after {
+      content: attr(data-text);
+      position: absolute;
+      inset: 0;
+      color: #fff;
+      pointer-events: none;
+    }
 
-    @keyframes quoteLetterPulse {
-      0%, 100% {
-        background-position: 0% 0%;
-        opacity: 0.8;
+    .glitch-quote::before {
+      text-shadow: -0.03em 0 rgba(0, 255, 255, 0.8);
+      transform: translate(-0.015em, -0.01em);
+      clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%);
+      animation: quoteGlitchTop 900ms infinite linear alternate-reverse;
+    }
+
+    .glitch-quote::after {
+      text-shadow: 0.03em 0 rgba(255, 0, 80, 0.8);
+      transform: translate(0.015em, 0.01em);
+      clip-path: polygon(0 62%, 100% 62%, 100% 100%, 0 100%);
+      animation: quoteGlitchBottom 1200ms infinite linear alternate-reverse;
+    }
+
+    @keyframes quoteGlitch {
+      0%, 14% {
+        text-shadow:
+          0.03em 0 0 rgba(255, 0, 80, 0.75),
+          -0.03em -0.02em 0 rgba(0, 255, 255, 0.75),
+          0.02em 0.03em 0 rgba(255, 255, 255, 0.35);
       }
-      50% {
-        background-position: 100% 0%;
-        opacity: 1;
+      15%, 49% {
+        text-shadow:
+          -0.03em -0.015em 0 rgba(255, 0, 80, 0.75),
+          0.02em 0.02em 0 rgba(0, 255, 255, 0.75),
+          -0.02em -0.03em 0 rgba(255, 255, 255, 0.35);
       }
+      50%, 99% {
+        text-shadow:
+          0.02em 0.03em 0 rgba(255, 0, 80, 0.75),
+          0.03em 0 0 rgba(0, 255, 255, 0.75),
+          0 -0.03em 0 rgba(255, 255, 255, 0.35);
+      }
+      100% {
+        text-shadow:
+          -0.03em 0 0 rgba(255, 0, 80, 0.75),
+          -0.02em -0.02em 0 rgba(0, 255, 255, 0.75),
+          -0.02em -0.03em 0 rgba(255, 255, 255, 0.35);
+      }
+    }
+
+    @keyframes quoteGlitchTop {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(-2px, -1px); }
+      40% { transform: translate(2px, 1px); }
+      60% { transform: translate(-1px, 1px); }
+      80% { transform: translate(1px, -1px); }
+      100% { transform: translate(0, 0); }
+    }
+
+    @keyframes quoteGlitchBottom {
+      0% { transform: translate(0, 0); }
+      20% { transform: translate(2px, 1px); }
+      40% { transform: translate(-2px, -1px); }
+      60% { transform: translate(1px, -1px); }
+      80% { transform: translate(-1px, 1px); }
+      100% { transform: translate(0, 0); }
     }
 
     .section-title {
@@ -604,7 +669,7 @@
 
       section { padding: 12vh 8vw; }
       .featured-grid { grid-template-columns: 1fr; }
-      .hero-title { letter-spacing: -1px; }
+      .hero-title { letter-spacing: 0.01em; }
 
       .loader-circle {
         width: min(200px, 52vw);
@@ -613,6 +678,11 @@
 
       .loader-text {
         max-width: 280px;
+      }
+
+      .hero-quote {
+        max-width: 18ch;
+        font-size: clamp(1.7rem, 6vw, 2.4rem);
       }
     }
 
@@ -676,20 +746,8 @@
     <section id="home">
       <h1 class="hero-title">PEDRO COSTA SILVA</h1>
       <p class="hero-subtitle">Psychology &amp; Statistics</p>
-      <p class="hero-quote">
-        <span>N</span><span>o</span><span>t</span><span>h</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>
-        <span>i</span><span>n</span><span>&nbsp;</span>
-        <span>l</span><span>i</span><span>f</span><span>e</span><span>&nbsp;</span>
-        <span>i</span><span>s</span><span>&nbsp;</span>
-        <span>t</span><span>o</span><span>&nbsp;</span>
-        <span>b</span><span>e</span><span>&nbsp;</span>
-        <span>f</span><span>e</span><span>a</span><span>r</span><span>e</span><span>d</span><span>,</span><span>&nbsp;</span>
-        <span>i</span><span>t</span><span>&nbsp;</span>
-        <span>i</span><span>s</span><span>&nbsp;</span>
-        <span>o</span><span>n</span><span>l</span><span>y</span><span>&nbsp;</span>
-        <span>t</span><span>o</span><span>&nbsp;</span>
-        <span>b</span><span>e</span><span>&nbsp;</span>
-        <span>u</span><span>n</span><span>d</span><span>e</span><span>r</span><span>s</span><span>t</span><span>o</span><span>o</span><span>d</span><span>.</span>
+      <p class="hero-quote glitch-quote" data-text="Nothing in life is to be feared, it is only to be understood.">
+        Nothing in life is to be feared, it is only to be understood.
       </p>
     </section>
 
