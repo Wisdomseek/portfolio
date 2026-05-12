@@ -7,7 +7,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cedarville+Cursive&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -337,12 +337,12 @@
       display: inline-block;
       max-width: 24ch;
       margin: 0 auto;
-      font-family: 'Cinzel Decorative', serif;
-      font-size: clamp(2rem, 3.2vw, 3rem);
-      font-weight: 700;
-      line-height: 1.25;
+      font-family: 'Cedarville Cursive', cursive;
+      font-size: clamp(2.4rem, 4vw, 3.6rem);
+      font-weight: 400;
+      line-height: 1.3;
       text-align: center;
-      color: #ffffff !important;
+      color: #ffffff;
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.7s ease, transform 0.7s ease;
@@ -352,73 +352,6 @@
     .hero-quote.visible {
       opacity: 1;
       transform: translateY(0);
-    }
-
-    .glitch-quote {
-      animation: quoteGlitch 1.2s infinite;
-    }
-
-    .glitch-quote::before,
-    .glitch-quote::after {
-      content: attr(data-text);
-      position: absolute;
-      inset: 0;
-      color: #ffffff;
-      pointer-events: none;
-    }
-
-    .glitch-quote::before {
-      left: 2px;
-      text-shadow: -2px 0 #00ffff;
-      animation: quoteGlitchBefore 1.2s infinite;
-    }
-
-    .glitch-quote::after {
-      left: -2px;
-      text-shadow: 2px 0 #ff0080;
-      animation: quoteGlitchAfter 1.2s infinite;
-    }
-
-    @keyframes quoteGlitch {
-      0%, 14%, 100% {
-        text-shadow: none;
-      }
-      15%, 49% {
-        text-shadow: -2px 0 #00ffff, 2px 0 #ff0080;
-      }
-      50%, 99% {
-        text-shadow: 2px 0 #00ffff, -2px 0 #ff0080;
-      }
-    }
-
-    @keyframes quoteGlitchBefore {
-      0%, 14%, 100% {
-        transform: translate(0, 0);
-        opacity: 0;
-      }
-      15%, 49% {
-        transform: translate(-2px, -1px);
-        opacity: 0.75;
-      }
-      50%, 99% {
-        transform: translate(1px, 1px);
-        opacity: 0.75;
-      }
-    }
-
-    @keyframes quoteGlitchAfter {
-      0%, 14%, 100% {
-        transform: translate(0, 0);
-        opacity: 0;
-      }
-      15%, 49% {
-        transform: translate(2px, 1px);
-        opacity: 0.75;
-      }
-      50%, 99% {
-        transform: translate(-1px, -1px);
-        opacity: 0.75;
-      }
     }
 
     .section-title {
@@ -659,7 +592,7 @@
 
       .hero-quote {
         max-width: 18ch;
-        font-size: clamp(1.7rem, 6vw, 2.4rem);
+        font-size: clamp(2rem, 7vw, 2.9rem);
       }
     }
 
@@ -723,7 +656,7 @@
     <section id="home">
       <h1 class="hero-title">PEDRO COSTA SILVA</h1>
       <p class="hero-subtitle">Psychology &amp; Statistics</p>
-      <p class="hero-quote glitch-quote" data-text="Nothing in life is to be feared, it is only to be understood.">
+      <p class="hero-quote">
         Nothing in life is to be feared, it is only to be understood.
       </p>
     </section>
