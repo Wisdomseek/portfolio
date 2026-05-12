@@ -103,10 +103,12 @@
       animation: loaderGradient 14s ease-in-out infinite alternate;
       z-index: 9998;
       color: var(--white);
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      opacity: 1;
+      visibility: visible;
+      transition: opacity 1.35s ease, visibility 0s linear 1.35s;
     }
 
-    #page-loader.hidden {
+    #page-loader.exiting {
       opacity: 0;
       visibility: hidden;
     }
@@ -167,19 +169,6 @@
       0% { background-position: 0% 0%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 100%; }
-    }
-
-    @keyframes loaderFadeOut {
-      from {
-        opacity: 1;
-      }
-      to {
-        opacity: 0;
-      }
-    }
-
-    #page-loader.exiting {
-      animation: loaderFadeOut 0.8s ease forwards;
     }
 
     .progress-bar {
@@ -289,8 +278,8 @@
       margin-bottom: 8vh;
       letter-spacing: -1px;
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.8s ease, transform 0.8s ease;
+      transform: translateY(36px);
+      transition: opacity 1.35s ease, transform 1.35s ease;
       position: relative;
     }
 
@@ -302,7 +291,7 @@
       width: 0%;
       height: 3px;
       background: linear-gradient(90deg, var(--gold), rgba(212,175,55,0.2));
-      transition: width 0.5s ease;
+      transition: width 0.8s ease;
     }
 
     .section-title.in-view::after {
@@ -327,8 +316,8 @@
     .content-block {
       margin-bottom: 12vh;
       opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(52px);
+      transition: opacity 1.45s ease, transform 1.45s ease;
     }
 
     .content-block.visible {
@@ -386,7 +375,7 @@
       letter-spacing: -0.06em;
       text-shadow: 0 10px 30px rgba(0,0,0,0.35);
       opacity: 0;
-      transition: opacity 1s ease;
+      transition: opacity 1.8s ease;
     }
 
     .hero-title.visible {
@@ -395,7 +384,7 @@
 
     .hero-title .letter {
       display: inline-block;
-      transition: transform 0.22s ease, color 0.22s ease;
+      transition: transform 0.24s ease, color 0.24s ease;
       will-change: transform;
     }
 
@@ -428,8 +417,8 @@
       letter-spacing: 2px;
       text-transform: uppercase;
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(16px);
+      transition: opacity 1.15s ease, transform 1.15s ease;
     }
 
     .hero-quote {
@@ -441,8 +430,8 @@
       font-style: italic;
       line-height: 1.8;
       opacity: 0;
-      transform: translateY(10px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
+      transform: translateY(16px);
+      transition: opacity 1.15s ease, transform 1.15s ease;
     }
 
     .hero-subtitle.visible,
@@ -492,8 +481,8 @@
       max-width: 60ch;
       margin-bottom: 5vh;
       opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 1s ease, transform 1s ease;
+      transform: translateY(40px);
+      transition: opacity 1.4s ease, transform 1.4s ease;
     }
 
     #about .hero-text.visible {
@@ -521,9 +510,13 @@
       padding: 4vh 3vw;
       border: 1px solid rgba(212, 175, 55, 0.2);
       background: rgba(212, 175, 55, 0.02);
-      transition: all 0.4s ease;
+      transition:
+        border-color 0.4s ease,
+        background 0.4s ease,
+        transform 1.45s ease,
+        opacity 1.45s ease;
       opacity: 0;
-      transform: translateY(50px);
+      transform: translateY(52px);
     }
 
     .featured-card.visible {
@@ -673,9 +666,14 @@
       .hero-quote,
       .content-block,
       .featured-card,
-      .hero-text {
+      .hero-text,
+      .section-title {
         opacity: 1 !important;
         transform: none !important;
+      }
+
+      #page-loader {
+        transition: none !important;
       }
     }
   </style>
@@ -990,8 +988,8 @@
     const sections = document.querySelectorAll('section');
     const observerOptions = {
       root: null,
-      rootMargin: '-15% 0px -15% 0px',
-      threshold: 0.1
+      rootMargin: '-10% 0px -10% 0px',
+      threshold: 0.12
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -1010,16 +1008,21 @@
 
     sections.forEach(s => observer.observe(s));
 
-    const fadeObserver = new IntersectionObserver((entries) => {
-      entries.forEach(e => {
+    const fadeObserver = new IntersectionObserver((entries, obs) => {
+      entries.forEach((e, i) => {
         if (e.isIntersecting) {
-          e.target.classList.add('visible');
+          setTimeout(() => {
+            e.target.classList.add('visible');
+          }, i * 120);
+          obs.unobserve(e.target);
         }
       });
-    }, { threshold: 0.15 });
+    }, {
+      threshold: 0.18,
+      rootMargin: '0px 0px -8% 0px'
+    });
 
-    document.querySelectorAll('.content-block, .hero-text, .featured-card').forEach((el, index) => {
-      el.style.transitionDelay = (0.05 * index) + 's';
+    document.querySelectorAll('.content-block, .hero-text, .featured-card').forEach((el) => {
       fadeObserver.observe(el);
     });
 
@@ -1033,13 +1036,15 @@
 
       if (!loader || !percentText || !circleProgress) {
         if (heroTitle) heroTitle.classList.add('visible');
-        if (homeSubtitle) homeSubtitle.classList.add('visible');
-        if (homeQuote) homeQuote.classList.add('visible');
+        setTimeout(() => {
+          if (homeSubtitle) homeSubtitle.classList.add('visible');
+          if (homeQuote) homeQuote.classList.add('visible');
+        }, 1100);
         return;
       }
 
       let progressVal = 0;
-      const duration = 3200;
+      const duration = 3600;
       const step = 32;
       const increment = 100 / (duration / step);
 
@@ -1054,16 +1059,14 @@
             loader.classList.add('exiting');
 
             setTimeout(() => {
-              loader.classList.add('hidden');
-
               if (heroTitle) heroTitle.classList.add('visible');
 
               setTimeout(() => {
                 if (homeSubtitle) homeSubtitle.classList.add('visible');
                 if (homeQuote) homeQuote.classList.add('visible');
-              }, 350);
-            }, 800);
-          }, 300);
+              }, 1450);
+            }, 1250);
+          }, 450);
         }
 
         const rounded = Math.round(progressVal);
