@@ -15,6 +15,10 @@
       --black-4: #2B5A9B;   /* lightest accent */
     }
 
+    html {
+  scroll-behavior: smooth;
+
+    
     * {
       margin: 0;
       padding: 0;
@@ -211,6 +215,7 @@
 }
 
     .nav-link {
+      position: relative;
       text-decoration: none;
       color: rgba(255,255,255,.8);
       font-size: 0.95rem;
@@ -219,6 +224,22 @@
       text-transform: uppercase;
       font-weight: 500;
     }
+
+      .nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -6px;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--gold), rgba(212,175,55,0.1));
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
 
     .nav-link:hover,
     .nav-link.active {
@@ -372,9 +393,11 @@
       font-weight: 900;
       color: var(--white);
       margin-bottom: 3vh;
-      letter-spacing: -2px;
+      letter-spacing: -0.06em;
       opacity: 0;
       animation: glitchFadeIn 1.5s ease forwards;
+      text-shadow: 0 10px 30px rgba(0,0,0,0.35); /* NEW */
+}
     }
 
     @keyframes glitchFadeIn {
@@ -911,9 +934,10 @@
       });
     }, { threshold: 0.15 });
 
-    document.querySelectorAll('.content-block, .hero-quote, .hero-text, .featured-card').forEach(el => {
-      fadeObserver.observe(el);
-    });
+    document.querySelectorAll('.content-block, .hero-quote, .hero-text, .featured-card').forEach((el, index) => {
+  el.style.transitionDelay = (0.05 * index) + 's';  // NEW line
+  fadeObserver.observe(el);
+});
 
         // Intro loader: 0–100% then fade out, then reveal hero quote (NEW)
     window.addEventListener('load', () => {
@@ -929,7 +953,7 @@
       }
 
       let progress = 0;
-      const duration = 1400; // total ms for 0–100
+      const duration = 1800; // total ms for 0–100
       const step = 24;
       const increment = 100 / (duration / step);
 
@@ -944,7 +968,7 @@
           setTimeout(() => {
             loader.classList.add('hidden');
             if (homeQuote) homeQuote.classList.add('visible');
-          }, 260);
+          }, 360);
         }
 
         const rounded = Math.round(progress);
