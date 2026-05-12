@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedro Costa Silva - Psychology Portfolio</title>
+  <!-- Display + mono fonts for cinematic loader (safe fallbacks) -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --gold: #D4AF37;
@@ -93,7 +95,7 @@
       transition: width .3s ease, height .3s ease, opacity .3s ease, border-color .3s ease;
     }
 
-    /* Fullscreen intro loader with site colors + subtle animation */
+    /* CINEMATIC HYBRID LOADER */
     #page-loader {
       position: fixed;
       inset: 0;
@@ -101,14 +103,14 @@
         radial-gradient(circle at 20% 10%, var(--black-3) 0%, transparent 55%),
         radial-gradient(circle at 80% 90%, var(--black-4) 0%, transparent 60%),
         var(--black-1);
-      background-size: 160% 160%;
-      animation: loaderGradient 14s ease-in-out infinite alternate;
+      background-size: 180% 180%;
+      animation: loaderGradient 18s ease-in-out infinite alternate;
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 9998;
       color: var(--white);
-      transition: opacity 0.8s ease, visibility 0.8s ease;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
     }
 
     #page-loader.hidden {
@@ -116,73 +118,297 @@
       visibility: hidden;
     }
 
-    .loader-inner {
-      width: min(540px, 90vw);
-      padding-inline: 1rem;
+    .loader-shell {
+      width: min(880px, 94vw);
+      max-width: 880px;
+      border-radius: 20px;
+      padding: 1.9rem 2rem;
+      background: linear-gradient(
+        135deg,
+        rgba(7, 15, 40, 0.95),
+        rgba(10, 22, 60, 0.98)
+      );
+      border: 1px solid rgba(212,175,55,0.35);
+      box-shadow:
+        0 26px 90px rgba(0,0,0,0.82),
+        0 0 0 1px rgba(255,255,255,0.02);
+      display: flex;
+      flex-direction: column;
+      gap: 1.4rem;
+      backdrop-filter: blur(18px);
+      transform-origin: center;
     }
 
-    .loader-top-line {
+    .loader-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
-      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.78rem;
       letter-spacing: 0.24em;
       text-transform: uppercase;
-      opacity: 0.7;
+      opacity: 0.75;
+    }
+
+    .loader-header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+    }
+
+    .loader-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gold);
+      box-shadow: 0 0 12px rgba(212,175,55,0.9);
     }
 
     .loader-label {
-      opacity: 0.7;
+      opacity: 0.8;
     }
 
     .loader-percent {
       font-variant-numeric: tabular-nums;
     }
 
-    .loader-name {
-      font-size: clamp(2rem, 4vw, 2.6rem);
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
+    .loader-main {
+      display: grid;
+      grid-template-columns: 1.35fr 1.1fr;
+      gap: 1.6rem;
     }
 
-    .loader-subtitle {
-      font-size: 0.9rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      opacity: 0.75;
-      margin-bottom: 2rem;
-    }
-
-    .loader-bar-track {
-      width: 100%;
-      height: 3px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.18);
+    /* Left: Research Terminal */
+    .loader-terminal {
+      background: radial-gradient(circle at 0% 0%, rgba(212,175,55,0.14) 0%, transparent 45%),
+                  rgba(7, 12, 32, 0.96);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      border: 1px solid rgba(212,175,55,0.25);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.8rem;
+      line-height: 1.7;
+      position: relative;
       overflow: hidden;
     }
 
-    .loader-bar-fill {
+    .loader-terminal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.4rem;
+      opacity: 0.7;
+    }
+
+    .loader-terminal-title {
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      font-size: 0.72rem;
+    }
+
+    .loader-terminal-status {
+      font-size: 0.72rem;
+    }
+
+    .loader-terminal-body {
+      margin-top: 0.5rem;
+    }
+
+    .loader-terminal-line {
+      opacity: 0;
+      transform: translateY(6px);
+      display: flex;
+      gap: 0.6rem;
+      align-items: baseline;
+    }
+
+    .loader-terminal-prefix {
+      color: rgba(212,175,55,0.9);
+    }
+
+    .loader-terminal-text {
+      color: rgba(231,236,255,0.92);
+    }
+
+    .loader-cursor {
+      display: inline-block;
+      width: 6px;
+      height: 1rem;
+      background: rgba(231,236,255,0.88);
+      margin-left: 3px;
+      transform: translateY(2px);
+      opacity: 0;
+    }
+
+    @keyframes cursorBlink {
+      0%, 50% { opacity: 1; }
+      50.01%, 100% { opacity: 0; }
+    }
+
+    /* Right: Performance Dashboard */
+    .loader-dashboard {
+      background: radial-gradient(circle at 100% 0%, rgba(101,133,230,0.22) 0%, transparent 45%),
+                  rgba(7, 12, 32, 0.96);
+      border-radius: 14px;
+      padding: 1.1rem 1.2rem;
+      border: 1px solid rgba(113,149,222,0.35);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,0.03);
+      display: flex;
+      flex-direction: column;
+      gap: 0.7rem;
+    }
+
+    .loader-name-block {
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-size: 0.78rem;
+      opacity: 0.85;
+      font-family: 'Space Grotesk', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+
+    .loader-player-name {
+      font-size: 1.1rem;
+      margin-top: 0.15rem;
+      letter-spacing: 0.18em;
+    }
+
+    .loader-subtitle {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.24em;
+      opacity: 0.7;
+      margin-top: 0.15rem;
+    }
+
+    .loader-progress-wrap {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-top: 0.4rem;
+    }
+
+    .loader-progress-ring {
+      width: 70px;
+      height: 70px;
+      position: relative;
+    }
+
+    .loader-progress-ring svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-90deg);
+    }
+
+    .loader-ring-bg {
+      stroke: rgba(255,255,255,0.08);
+      stroke-width: 6;
+    }
+
+    .loader-ring-fg {
+      stroke: url(#loaderRingGrad);
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 219.8; /* 2πr for r=35 */
+      stroke-dashoffset: 219.8;
+    }
+
+    .loader-ring-center {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+    }
+
+    .loader-percent-big {
+      font-size: 1rem;
+      margin-right: 2px;
+    }
+
+    .loader-traits {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.76rem;
+    }
+
+    .loader-trait-row {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .loader-trait-label {
+      width: 9ch;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: rgba(231,236,255,0.78);
+    }
+
+    .loader-trait-bar-wrap {
+      flex: 1;
+      height: 4px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .loader-trait-bar {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--gold), #ffffff);
       border-radius: inherit;
+      background: linear-gradient(90deg, var(--gold), #ffffff);
       transform-origin: left center;
-      transition: width 0.09s linear;
+    }
+
+    .loader-trait-value {
+      width: 4ch;
+      text-align: right;
+      color: rgba(231,236,255,0.78);
+    }
+
+    .loader-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.4rem;
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.8;
+    }
+
+    .loader-footer-left {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .loader-skip {
+      cursor: pointer;
+      opacity: 0.8;
+    }
+
+    .loader-skip:hover {
+      opacity: 1;
+    }
+
+    .loader-key-hint {
+      opacity: 0.6;
     }
 
     @keyframes loaderGradient {
-      0% {
-        background-position: 0% 0%;
-      }
-      50% {
-        background-position: 100% 50%;
-      }
-      100% {
-        background-position: 0% 100%;
-      }
+      0%   { background-position: 0% 0%; }
+      50%  { background-position: 100% 50%; }
+      100% { background-position: 0% 100%; }
     }
 
     /* Scroll Progress Bar */
@@ -596,6 +822,10 @@
       .hero-title {
         letter-spacing: -1px;
       }
+
+      .loader-main {
+        grid-template-columns: 1fr;
+      }
     }
 
     @media (max-width: 480px) {
@@ -611,6 +841,15 @@
         margin-bottom: 6vh;
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -618,17 +857,116 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-ring" id="cursor-ring"></div>
 
-  <!-- Intro loader -->
+  <!-- Cinematic hybrid loader -->
   <div id="page-loader">
-    <div class="loader-inner">
-      <div class="loader-top-line">
-        <span class="loader-label">Portfolio</span>
-        <span class="loader-percent" id="loader-percent">0%</span>
+    <div class="loader-shell">
+      <div class="loader-header">
+        <div class="loader-header-left">
+          <div class="loader-dot"></div>
+          <span class="loader-label">Portfolio system</span>
+        </div>
+        <span class="loader-percent" id="loader-percent">000%</span>
       </div>
-      <div class="loader-name">PEDRO COSTA SILVA</div>
-      <div class="loader-subtitle">Psychology &amp; Statistics</div>
-      <div class="loader-bar-track">
-        <div class="loader-bar-fill" id="loader-bar-fill"></div>
+
+      <div class="loader-main">
+        <!-- Left: Research Terminal -->
+        <div class="loader-terminal">
+          <div class="loader-terminal-header">
+            <span class="loader-terminal-title">cognitive lab console</span>
+            <span class="loader-terminal-status" id="loader-status">booting...</span>
+          </div>
+          <div class="loader-terminal-body" id="loader-terminal-body">
+            <div class="loader-terminal-line" data-text="Initializing cognitive systems">
+              <span class="loader-terminal-prefix">&gt;</span>
+              <span class="loader-terminal-text"></span>
+            </div>
+            <div class="loader-terminal-line" data-text="Loading behavioral datasets">
+              <span class="loader-terminal-prefix">&gt;</span>
+              <span class="loader-terminal-text"></span>
+            </div>
+            <div class="loader-terminal-line" data-text="Calibrating personality model">
+              <span class="loader-terminal-prefix">&gt;</span>
+              <span class="loader-terminal-text"></span>
+            </div>
+            <div class="loader-terminal-line" data-text="Optimizing statistical heuristics">
+              <span class="loader-terminal-prefix">&gt;</span>
+              <span class="loader-terminal-text"></span>
+            </div>
+            <div class="loader-terminal-line" data-text="Preparing portfolio narrative">
+              <span class="loader-terminal-prefix">&gt;</span>
+              <span class="loader-terminal-text"></span>
+            </div>
+          </div>
+          <span class="loader-cursor" id="loader-cursor"></span>
+        </div>
+
+        <!-- Right: Performance Dashboard -->
+        <div class="loader-dashboard">
+          <div class="loader-name-block">
+            profile
+            <div class="loader-player-name">PEDRO COSTA SILVA</div>
+            <div class="loader-subtitle">Psychology · Statistics · Soccer</div>
+          </div>
+
+          <div class="loader-progress-wrap">
+            <div class="loader-progress-ring">
+              <svg viewBox="0 0 80 80">
+                <defs>
+                  <linearGradient id="loaderRingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#D4AF37" />
+                    <stop offset="100%" stop-color="#FFFFFF" />
+                  </linearGradient>
+                </defs>
+                <circle cx="40" cy="40" r="35" class="loader-ring-bg" fill="none" />
+                <circle cx="40" cy="40" r="35" class="loader-ring-fg" fill="none" id="loader-ring-fg" />
+              </svg>
+              <div class="loader-ring-center">
+                <span class="loader-percent-big" id="loader-percent-big">0</span><span>%</span>
+              </div>
+            </div>
+
+            <div class="loader-traits">
+              <div class="loader-trait-row">
+                <span class="loader-trait-label">FOCUS</span>
+                <div class="loader-trait-bar-wrap">
+                  <div class="loader-trait-bar" data-target="86"></div>
+                </div>
+                <span class="loader-trait-value">00</span>
+              </div>
+              <div class="loader-trait-row">
+                <span class="loader-trait-label">GRIT</span>
+                <div class="loader-trait-bar-wrap">
+                  <div class="loader-trait-bar" data-target="93"></div>
+                </div>
+                <span class="loader-trait-value">00</span>
+              </div>
+              <div class="loader-trait-row">
+                <span class="loader-trait-label">MINDSET</span>
+                <div class="loader-trait-bar-wrap">
+                  <div class="loader-trait-bar" data-target="88"></div>
+                </div>
+                <span class="loader-trait-value">00</span>
+              </div>
+              <div class="loader-trait-row">
+                <span class="loader-trait-label">ACCURACY</span>
+                <div class="loader-trait-bar-wrap">
+                  <div class="loader-trait-bar" data-target="91"></div>
+                </div>
+                <span class="loader-trait-value">00</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="loader-footer">
+        <div class="loader-footer-left">
+          <span>boot sequence v1.0</span>
+        </div>
+        <div class="loader-footer-right">
+          <span class="loader-skip" id="loader-skip">skip intro</span>
+          <span class="loader-key-hint">press Enter</span>
+        </div>
       </div>
     </div>
   </div>
@@ -854,6 +1192,9 @@
     </section>
   </main>
 
+  <!-- GSAP for cinematic loader animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" integrity="sha512-JW1D1sXz7Y7+u0WPnQ01IwGFdueg9BcPIjJDsxB2P6QK+xfFoifsxDYF1J9Qvf9JhhDN3bAfudk0jYJzDP5irA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
   <script>
     // Custom Cursor
     const cursorDot = document.getElementById('cursor-dot');
@@ -877,8 +1218,7 @@
     }
     animateRing();
 
-    // Cursor hover effects
-    document.querySelectorAll('a, button, .hamburger').forEach(el => {
+    document.querySelectorAll('a, button, .hamburger, #loader-skip').forEach(el => {
       el.addEventListener('mouseenter', () => {
         cursorRing.style.width = '52px';
         cursorRing.style.height = '52px';
@@ -948,41 +1288,171 @@
       fadeObserver.observe(el);
     });
 
-    // Intro loader: 0–100% then fade out, then reveal hero quote
+    // CINEMATIC LOADER LOGIC
     window.addEventListener('load', () => {
-      const homeQuote = document.querySelector('#home .hero-quote');
       const loader = document.getElementById('page-loader');
-      const barFill = document.getElementById('loader-bar-fill');
-      const percentText = document.getElementById('loader-percent');
+      const percentSmall = document.getElementById('loader-percent');
+      const percentBig = document.getElementById('loader-percent-big');
+      const ring = document.getElementById('loader-ring-fg');
+      const traitBars = document.querySelectorAll('.loader-trait-bar');
+      const traitValues = document.querySelectorAll('.loader-trait-value');
+      const terminalLines = document.querySelectorAll('.loader-terminal-line');
+      const terminalStatus = document.getElementById('loader-status');
+      const cursor = document.getElementById('loader-cursor');
+      const skipBtn = document.getElementById('loader-skip');
+      const heroQuote = document.querySelector('#home .hero-quote');
 
-      if (!loader || !barFill || !percentText) {
-        if (homeQuote) homeQuote.classList.add('visible');
+      if (!loader || !percentSmall || !percentBig || !ring) {
+        if (heroQuote) heroQuote.classList.add('visible');
         return;
       }
 
-      let progress = 0;
-      const duration = 2600; // total ms for 0–100
-      const step = 24;
-      const increment = 100 / (duration / step);
+      // Reduced motion: fast-forward
+      const prefersReducedMotion = window.matchMedia &&
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-      const intervalId = setInterval(() => {
-        progress += increment;
+      function setPercent(p) {
+        const clamped = Math.max(0, Math.min(100, Math.round(p)));
+        const padded = String(clamped).padStart(3, '0');
+        percentSmall.textContent = padded + '%';
+        percentBig.textContent = clamped;
+        const circumference = 219.8;
+        const offset = circumference * (1 - clamped / 100);
+        ring.style.strokeDashoffset = offset;
+      }
 
-        if (progress >= 100) {
-          progress = 100;
-          clearInterval(intervalId);
+      function finishLoader() {
+        setPercent(100);
+        terminalStatus.textContent = 'ready.';
+        if (cursor) cursor.style.animation = 'none';
+        setTimeout(() => {
+          loader.classList.add('hidden');
+          if (heroQuote) heroQuote.classList.add('visible');
+        }, 400);
+      }
 
-          // small pause at 100, then fade loader, then show hero quote
-          setTimeout(() => {
-            loader.classList.add('hidden');
-            if (homeQuote) homeQuote.classList.add('visible');
-          }, 500);
+      if (prefersReducedMotion) {
+        setPercent(100);
+        traitBars.forEach((bar, i) => {
+          const target = Number(bar.getAttribute('data-target')) || 80;
+          bar.style.width = target + '%';
+          traitValues[i].textContent = target;
+        });
+        finishLoader();
+        return;
+      }
+
+      const tl = gsap.timeline({ defaults: { ease: 'power2.out' } });
+
+      // Shell entrance
+      tl.from('.loader-shell', {
+        duration: 0.7,
+        opacity: 0,
+        y: 30,
+        scale: 0.96
+      });
+
+      // Header + dot
+      tl.from('.loader-dot', {
+        duration: 0.4,
+        scale: 0,
+        ease: 'back.out(2)'
+      }, '<+0.1');
+
+      // Progress value: 0 -> 92 then 100
+      tl.fromTo({ p: 0 }, { p: 92, duration: 2.1, ease: 'power2.out',
+        onUpdate: function() {
+          setPercent(this.targets()[0].p);
         }
+      }, '<+0.05');
 
-        const rounded = Math.round(progress);
-        barFill.style.width = rounded + '%';
-        percentText.textContent = rounded + '%';
-      }, step);
+      // Terminal lines typing
+      terminalLines.forEach((line, index) => {
+        const textEl = line.querySelector('.loader-terminal-text');
+        const fullText = line.getAttribute('data-text') || '';
+        const delayStart = 0.25 + index * 0.35;
+
+        tl.to(line, {
+          duration: 0.25,
+          opacity: 1,
+          y: 0,
+          delay: index === 0 ? 0.2 : 0,
+          onStart: () => {
+            let i = 0;
+            const chars = fullText.split('');
+            textEl.textContent = '';
+            const typeInterval = setInterval(() => {
+              textEl.textContent += chars[i] || '';
+              i++;
+              if (i >= chars.length) clearInterval(typeInterval);
+            }, 14 + index * 4);
+          }
+        }, `<+${delayStart}`);
+      });
+
+      // Terminal cursor blink
+      tl.call(() => {
+        if (cursor) {
+          cursor.style.opacity = '1';
+          cursor.style.animation = 'cursorBlink 0.7s step-end infinite';
+        }
+      }, null, '<');
+
+      // Dashboard traits animate
+      traitBars.forEach((bar, i) => {
+        const target = Number(bar.getAttribute('data-target')) || 80;
+        tl.fromTo(bar,
+          { width: '0%' },
+          {
+            width: target + '%',
+            duration: 1.3,
+            ease: 'power3.out',
+            onUpdate: function() {
+              const current = parseFloat(this.targets()[0].style.width) || 0;
+              traitValues[i].textContent = String(Math.round(current)).padStart(2, '0');
+            }
+          },
+          '<+0.3'
+        );
+      });
+
+      // Last bit: 92 -> 100
+      tl.to({ p: 92 }, {
+        duration: 0.6,
+        p: 100,
+        ease: 'power3.inOut',
+        onUpdate: function() {
+          setPercent(this.targets()[0].p);
+        }
+      }, '-=0.6');
+
+      tl.call(() => {
+        terminalStatus.textContent = 'ready.';
+      }, null, '-=0.2');
+
+      tl.to('.loader-shell', {
+        duration: 0.6,
+        opacity: 0,
+        y: -12,
+        onComplete: () => {
+          loader.classList.add('hidden');
+          if (heroQuote) heroQuote.classList.add('visible');
+        }
+      }, '>-0.05');
+
+      function skipIntro() {
+        tl.progress(1, false);
+      }
+
+      if (skipBtn) {
+        skipBtn.addEventListener('click', skipIntro);
+      }
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          skipIntro();
+        }
+      });
     });
   </script>
 </body>
