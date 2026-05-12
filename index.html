@@ -4,19 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedro Costa Silva - Psychology Portfolio</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
   <style>
-    @font-face {
-      font-family: 'Unicum';
-      src: url('https://files.fontsme.com/u/4/4004/file/unicum.regular.ttf') format('truetype');
-      font-display: swap;
-    }
-
-    @font-face {
-      font-family: 'Best Quotes';
-      src: url('./fonts/BestQuotesPersonalUse.ttf') format('truetype');
-      font-display: swap;
-    }
-
     :root {
       --gold: #D4AF37;
       --white: #FFFFFF;
@@ -169,7 +162,6 @@
     }
 
     .loader-text {
-      font-family: 'Unicum', serif;
       font-size: 1rem;
       max-width: 320px;
       line-height: 1.5;
@@ -313,7 +305,6 @@
     }
 
     .hero-title {
-      font-family: 'Unicum', serif;
       font-size: clamp(3.8rem, 8vw, 7.5rem);
       font-weight: 400;
       color: var(--white);
@@ -346,12 +337,12 @@
       display: inline-block;
       max-width: 24ch;
       margin: 0 auto;
-      font-family: 'Best Quotes', cursive;
+      font-family: 'Cinzel Decorative', serif;
       font-size: clamp(2rem, 3.2vw, 3rem);
       font-weight: 700;
-      line-height: 1.2;
-      color: #fff;
+      line-height: 1.25;
       text-align: center;
+      color: #ffffff !important;
       opacity: 0;
       transform: translateY(10px);
       transition: opacity 0.7s ease, transform 0.7s ease;
@@ -364,15 +355,7 @@
     }
 
     .glitch-quote {
-      position: relative;
-      color: #fff;
-      font-family: 'Best Quotes', cursive;
-      font-weight: 700;
-      text-shadow:
-        0.03em 0 0 rgba(255, 0, 80, 0.75),
-        -0.03em -0.02em 0 rgba(0, 255, 255, 0.75),
-        0.02em 0.03em 0 rgba(255, 255, 255, 0.35);
-      animation: quoteGlitch 1400ms infinite;
+      animation: quoteGlitch 1.2s infinite;
     }
 
     .glitch-quote::before,
@@ -380,67 +363,62 @@
       content: attr(data-text);
       position: absolute;
       inset: 0;
-      color: #fff;
+      color: #ffffff;
       pointer-events: none;
     }
 
     .glitch-quote::before {
-      text-shadow: -0.03em 0 rgba(0, 255, 255, 0.8);
-      transform: translate(-0.015em, -0.01em);
-      clip-path: polygon(0 0, 100% 0, 100% 38%, 0 38%);
-      animation: quoteGlitchTop 900ms infinite linear alternate-reverse;
+      left: 2px;
+      text-shadow: -2px 0 #00ffff;
+      animation: quoteGlitchBefore 1.2s infinite;
     }
 
     .glitch-quote::after {
-      text-shadow: 0.03em 0 rgba(255, 0, 80, 0.8);
-      transform: translate(0.015em, 0.01em);
-      clip-path: polygon(0 62%, 100% 62%, 100% 100%, 0 100%);
-      animation: quoteGlitchBottom 1200ms infinite linear alternate-reverse;
+      left: -2px;
+      text-shadow: 2px 0 #ff0080;
+      animation: quoteGlitchAfter 1.2s infinite;
     }
 
     @keyframes quoteGlitch {
-      0%, 14% {
-        text-shadow:
-          0.03em 0 0 rgba(255, 0, 80, 0.75),
-          -0.03em -0.02em 0 rgba(0, 255, 255, 0.75),
-          0.02em 0.03em 0 rgba(255, 255, 255, 0.35);
+      0%, 14%, 100% {
+        text-shadow: none;
       }
       15%, 49% {
-        text-shadow:
-          -0.03em -0.015em 0 rgba(255, 0, 80, 0.75),
-          0.02em 0.02em 0 rgba(0, 255, 255, 0.75),
-          -0.02em -0.03em 0 rgba(255, 255, 255, 0.35);
+        text-shadow: -2px 0 #00ffff, 2px 0 #ff0080;
       }
       50%, 99% {
-        text-shadow:
-          0.02em 0.03em 0 rgba(255, 0, 80, 0.75),
-          0.03em 0 0 rgba(0, 255, 255, 0.75),
-          0 -0.03em 0 rgba(255, 255, 255, 0.35);
-      }
-      100% {
-        text-shadow:
-          -0.03em 0 0 rgba(255, 0, 80, 0.75),
-          -0.02em -0.02em 0 rgba(0, 255, 255, 0.75),
-          -0.02em -0.03em 0 rgba(255, 255, 255, 0.35);
+        text-shadow: 2px 0 #00ffff, -2px 0 #ff0080;
       }
     }
 
-    @keyframes quoteGlitchTop {
-      0% { transform: translate(0, 0); }
-      20% { transform: translate(-2px, -1px); }
-      40% { transform: translate(2px, 1px); }
-      60% { transform: translate(-1px, 1px); }
-      80% { transform: translate(1px, -1px); }
-      100% { transform: translate(0, 0); }
+    @keyframes quoteGlitchBefore {
+      0%, 14%, 100% {
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      15%, 49% {
+        transform: translate(-2px, -1px);
+        opacity: 0.75;
+      }
+      50%, 99% {
+        transform: translate(1px, 1px);
+        opacity: 0.75;
+      }
     }
 
-    @keyframes quoteGlitchBottom {
-      0% { transform: translate(0, 0); }
-      20% { transform: translate(2px, 1px); }
-      40% { transform: translate(-2px, -1px); }
-      60% { transform: translate(1px, -1px); }
-      80% { transform: translate(-1px, 1px); }
-      100% { transform: translate(0, 0); }
+    @keyframes quoteGlitchAfter {
+      0%, 14%, 100% {
+        transform: translate(0, 0);
+        opacity: 0;
+      }
+      15%, 49% {
+        transform: translate(2px, 1px);
+        opacity: 0.75;
+      }
+      50%, 99% {
+        transform: translate(-1px, -1px);
+        opacity: 0.75;
+      }
     }
 
     .section-title {
@@ -669,7 +647,6 @@
 
       section { padding: 12vh 8vw; }
       .featured-grid { grid-template-columns: 1fr; }
-      .hero-title { letter-spacing: 0.01em; }
 
       .loader-circle {
         width: min(200px, 52vw);
