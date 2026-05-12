@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedro Costa Silva - Psychology Portfolio</title>
   <style>
     :root {
@@ -93,7 +93,7 @@
       transition: width .3s ease, height .3s ease, opacity .3s ease, border-color .3s ease;
     }
 
-    /* Fullscreen intro loader */
+    /* Fullscreen intro loader with site colors + subtle animation */
     #page-loader {
       position: fixed;
       inset: 0;
@@ -301,6 +301,7 @@
       position: relative;
     }
 
+    /* Animated divider under section titles */
     .section-title::after {
       content: '';
       position: absolute;
@@ -959,25 +960,26 @@
         return;
       }
 
-      let progressVal = 0;
+      let progress = 0;
       const duration = 2600; // total ms for 0–100
       const step = 24;
       const increment = 100 / (duration / step);
 
       const intervalId = setInterval(() => {
-        progressVal += increment;
+        progress += increment;
 
-        if (progressVal >= 100) {
-          progressVal = 100;
+        if (progress >= 100) {
+          progress = 100;
           clearInterval(intervalId);
 
+          // small pause at 100, then fade loader, then show hero quote
           setTimeout(() => {
             loader.classList.add('hidden');
             if (homeQuote) homeQuote.classList.add('visible');
           }, 500);
         }
 
-        const rounded = Math.round(progressVal);
+        const rounded = Math.round(progress);
         barFill.style.width = rounded + '%';
         percentText.textContent = rounded + '%';
       }, step);
