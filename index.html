@@ -180,31 +180,35 @@
     }
 
     /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 2rem 5vw;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      backdrop-filter: blur(10px);
-      background: linear-gradient(180deg, rgba(5,5,5,0.8) 0%, transparent 100%);
-    }
+   nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 2rem 5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(10px);
+  background: linear-gradient(180deg, rgba(5,5,5,0.8) 0%, transparent 100%);
+}
 
-    .logo {
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--white);
-      letter-spacing: 2px;
-    }
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+  white-space: nowrap;   /* NEW: keep on one line */
+  flex-shrink: 0;        /* NEW: don’t let flexbox squeeze it */
+}
 
-    .nav-links {
-      display: flex;
-      gap: 3rem;
-      list-style: none;
-    }
+.nav-links {
+  display: flex;
+  gap: 3rem;
+  list-style: none;
+  flex: 1 1 auto;     /* NEW: let this be the flexible part */
+  justify-content: flex-end;
+}
 
     .nav-link {
       text-decoration: none;
