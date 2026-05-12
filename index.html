@@ -4,6 +4,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Pedro Costa Silva - Psychology Portfolio</title>
+  <!-- Display font for name + loader intro -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --gold: #D4AF37;
@@ -93,7 +95,7 @@
       transition: width .3s ease, height .3s ease, opacity .3s ease, border-color .3s ease;
     }
 
-    /* FULLSCREEN INTRO LOADER – CIRCLE BOTTOM LEFT */
+    /* FULLSCREEN INTRO LOADER – MINIMAL CIRCLE BOTTOM LEFT */
     #page-loader {
       position: fixed;
       inset: 0;
@@ -133,27 +135,18 @@
       width: min(220px, 40vw);
       height: min(220px, 40vw);
       border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.2);
+      border: 1px solid rgba(255,255,255,0.25);
       position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       overflow: hidden;
-    }
-
-    .loader-circle-outline {
-      position: absolute;
-      inset: 12px;
-      border-radius: 50%;
-      border: 2px solid rgba(255,255,255,0.15);
     }
 
     .loader-circle-progress {
       position: absolute;
-      inset: 12px;
+      inset: 0;
       border-radius: 50%;
-      border: 2px solid var(--white);
-      border-color: var(--white) transparent transparent transparent;
-      transform: rotate(-90deg);
-      transform-origin: center;
-      /* we’ll animate this with JS via stroke-like trick: using conic-gradient background */
       background:
         conic-gradient(var(--white) 0deg, var(--white) 0deg, transparent 0deg);
       -webkit-mask:
@@ -162,24 +155,16 @@
         radial-gradient(farthest-side, transparent calc(100% - 2px), #000 0);
     }
 
-    .loader-circle-inner {
-      position: absolute;
-      inset: 20px;
-      border-radius: 50%;
-      background: rgba(0,0,0,0.02);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
     .loader-percent {
+      position: relative;
       font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 700;
       letter-spacing: 0.06em;
     }
 
     .loader-text {
-      font-size: 0.9rem;
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      font-size: 0.95rem;
       max-width: 260px;
       line-height: 1.5;
       color: rgba(255,255,255,0.85);
@@ -195,6 +180,29 @@
       100% {
         background-position: 0% 100%;
       }
+    }
+
+    /* Netflix‑ish exit animation */
+    @keyframes loaderNetflixOut {
+      0% {
+        transform: scale(1);
+        opacity: 1;
+        filter: brightness(1);
+      }
+      40% {
+        transform: scale(1.03);
+        opacity: 1;
+        filter: brightness(1.4);
+      }
+      100% {
+        transform: scale(1.1);
+        opacity: 0;
+        filter: brightness(0.9);
+      }
+    }
+
+    #page-loader.exiting {
+      animation: loaderNetflixOut 0.8s ease forwards;
     }
 
     /* Scroll Progress Bar */
@@ -412,6 +420,7 @@
     }
 
     .hero-title {
+      font-family: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       font-size: clamp(3.5rem, 8vw, 7rem);
       font-weight: 900;
       color: var(--white);
@@ -454,12 +463,11 @@
       }
     }
 
-    /* Hero quote with golden shine */
+    /* Hero quote with subtle per-letter golden pulse */
     .hero-quote {
       position: relative;
       display: inline-block;
       font-size: clamp(1.1rem, 2vw, 1.4rem);
-      color: rgba(255,255,255,0.9);
       max-width: 60ch;
       margin: 0 auto;
       font-style: italic;
@@ -467,7 +475,6 @@
       opacity: 0;
       transform: translateY(30px);
       transition: opacity 1s ease 0.6s, transform 1s ease 0.6s;
-      overflow: hidden;
     }
 
     #home .hero-quote.visible {
@@ -475,29 +482,38 @@
       transform: translateY(0);
     }
 
-    .hero-quote::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -40%;
-      width: 40%;
-      height: 100%;
+    .hero-quote span {
+      display: inline-block;
       background: linear-gradient(
         120deg,
-        transparent 0%,
-        rgba(212,175,55,0.0) 25%,
-        rgba(255,255,255,0.65) 50%,
-        rgba(212,175,55,0.0) 75%,
-        transparent 100%
+        rgba(255,255,255,0.4),
+        var(--gold),
+        rgba(255,255,255,0.4)
       );
-      transform: skewX(-20deg);
-      animation: quoteShine 4s linear infinite;
-      pointer-events: none;
+      background-size: 200% 100%;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: quoteLetterPulse 2.4s ease-in-out infinite;
     }
 
-    @keyframes quoteShine {
-      0%   { transform: translateX(-120%) skewX(-20deg); }
-      100% { transform: translateX(220%) skewX(-20deg); }
+    .hero-quote span:nth-child(odd) {
+      animation-delay: 0.08s;
+    }
+
+    .hero-quote span:nth-child(3n) {
+      animation-delay: 0.16s;
+    }
+
+    @keyframes quoteLetterPulse {
+      0%, 100% {
+        background-position: 0% 0%;
+        opacity: 0.8;
+      }
+      50% {
+        background-position: 100% 0%;
+        opacity: 1;
+      }
     }
 
     /* About Section */
@@ -665,16 +681,13 @@
   <div class="cursor-dot" id="cursor-dot"></div>
   <div class="cursor-ring" id="cursor-ring"></div>
 
-  <!-- Circle-style intro loader -->
+  <!-- Minimal circle-style intro loader -->
   <div id="page-loader">
     <div class="loader-layout">
       <div class="loader-circle-wrap">
         <div class="loader-circle">
-          <div class="loader-circle-outline"></div>
           <div class="loader-circle-progress" id="loader-circle-progress"></div>
-          <div class="loader-circle-inner">
-            <span class="loader-percent" id="loader-percent">0%</span>
-          </div>
+          <span class="loader-percent" id="loader-percent">0%</span>
         </div>
         <div class="loader-text">
           Hi, I'm Pedro. This is a small portfolio for my psychology and statistics work.
@@ -711,7 +724,19 @@
       <h1 class="hero-title">PEDRO COSTA SILVA</h1>
       <p class="hero-subtitle">Psychology &amp; Statistics</p>
       <p class="hero-quote">
-        "Nothing in life is to be feared, it is only to be understood."
+        <span>N</span><span>o</span><span>t</span><span>h</span><span>i</span><span>n</span><span>g</span><span>&nbsp;</span>
+        <span>i</span><span>n</span><span>&nbsp;</span>
+        <span>l</span><span>i</span><span>f</span><span>e</span><span>&nbsp;</span>
+        <span>i</span><span>s</span><span>&nbsp;</span>
+        <span>t</span><span>o</span><span>&nbsp;</span>
+        <span>b</span><span>e</span><span>&nbsp;</span>
+        <span>f</span><span>e</span><span>a</span><span>r</span><span>e</span><span>d</span><span>,</span><span>&nbsp;</span>
+        <span>i</span><span>t</span><span>&nbsp;</span>
+        <span>i</span><span>s</span><span>&nbsp;</span>
+        <span>o</span><span>n</span><span>l</span><span>y</span><span>&nbsp;</span>
+        <span>t</span><span>o</span><span>&nbsp;</span>
+        <span>b</span><span>e</span><span>&nbsp;</span>
+        <span>u</span><span>n</span><span>d</span><span>e</span><span>r</span><span>s</span><span>t</span><span>o</span><span>o</span><span>d</span><span>.</span>
       </p>
     </section>
 
@@ -998,7 +1023,7 @@
       fadeObserver.observe(el);
     });
 
-    // Circle loader: 0–100% then fade out, then reveal hero quote
+    // Circle loader: 0–100% then Netflix‑style exit, then reveal hero quote
     window.addEventListener('load', () => {
       const homeQuote = document.querySelector('#home .hero-quote');
       const loader = document.getElementById('page-loader');
@@ -1023,15 +1048,17 @@
           clearInterval(intervalId);
 
           setTimeout(() => {
-            loader.classList.add('hidden');
-            if (homeQuote) homeQuote.classList.add('visible');
-          }, 400);
+            loader.classList.add('exiting');
+            setTimeout(() => {
+              loader.classList.add('hidden');
+              if (homeQuote) homeQuote.classList.add('visible');
+            }, 800); // match loaderNetflixOut
+          }, 300);
         }
 
         const rounded = Math.round(progressVal);
         percentText.textContent = rounded + '%';
 
-        // Update conic-gradient angle
         const angle = (rounded / 100) * 360;
         circleProgress.style.background =
           `conic-gradient(var(--white) 0deg, var(--white) ${angle}deg, transparent ${angle}deg)`;
